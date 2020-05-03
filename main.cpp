@@ -70,45 +70,62 @@ int maxSearch(struct Node *p){
 
 }
 struct Node *lsearch(struct Node *p,int key) {
-    while (p!=NULL) {
+    while (p != NULL) {
         if (p->data == key) {
             return p;
         }
-        p=p->next;
+        p = p->next;
     }
     return NULL;
-}
-struct Node *Rsearch(struct Node *p,int key){
-    if(p==NULL){
-        return NULL;
-    }
-    else if(p->data==key){
-        return p;
-    }
-    return Rsearch(p->next,key);
 }
 void insert(struct Node *p,int index,int key){
     struct Node *temp;
 
-    temp =(struct Node *)malloc(sizeof(Node));
-    temp->data=key;
 
     if(index<0 || index > CountElement(p))
         return;
+    temp =(struct Node *)malloc(sizeof(Node));
+    temp->data=key;
 
-    else if (index==0){
+    if (index==0){
 
-        temp->next=p;
-        p=temp;
-    } else {
-        
+        temp->next=first;
+        first=temp;
+    } else{
+        for(int i=0;i<index-1;i++){
+            p=p->next;
+            temp->next=p->next;
+            p->next=temp;
+        }
     }
 }
+void InsertSortedList(struct Node *p,int key){
+    struct Node *temp,*q=NULL;
+    temp=(struct Node *)malloc(sizeof(struct Node));
+    temp->data=key;
+    temp->next=NULL;
+    if(first==NULL){
+        first=temp;
+    } else {
+        while (p && p->data < key) {
+            q = p;
+            p = p->next;
+        }
+        if (p == first) {
+            temp->next = first;
+            first = temp;
 
+        } else{
+            temp->next=q->next;
+            q->next=temp;
+        }
+    }
+
+}
 //linked List
 int main() {
-    int list[]={1,3,4,50,8,19};
-
+    int list[]={1,3,4,19,50,81};
+    struct Node *c;
     createLinkdedlist(list,6);
 
     printList(first);
@@ -117,16 +134,21 @@ int main() {
 
     cout<<endl<<"The elements are :"<<CountElement(first);
 
-    cout<<endl<<"The Max element is : "<<maxSearch(first);
+    //cout<<endl<<"The Max element is : "<<maxSearch(first);
 
-    struct Node *c;
+
 
     c=lsearch(first,17);
     if(c!=NULL){
         cout<<endl<<"Key found "<<c->data;
     } else{
-        cout<<endl<<"No key Found";
+        cout<<endl<<"No key Found"<<endl;
     }
+   // insert(first,2,7);
+   // printList(first);
+   cout<<endl;
+    InsertSortedList(first,5);
+    printList(first);
 
     return 0;
 }
