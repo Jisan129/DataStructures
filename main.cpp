@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-
+//Implementing linked List
 struct Node{
     int data;
     struct Node *next;
@@ -122,9 +122,67 @@ void InsertSortedList(struct Node *p,int key){
     }
 
 }
-//linked List
+int Delete(struct Node *p,int index ){
+    struct Node *q;
+    int x=-1,i;
+    if(index<1 || index>CountElement(p)){
+        return -1;
+    }
+    if(index==1){
+        x=first->data;
+        q=first;
+       first=first->next;
+       free(q);
+       return x;
+
+    }
+    else{
+        for(i=0;i<index-1;i++){
+            q=p;
+
+            p=p->next;
+        }
+        q->next=p->next;
+        x=p->data;
+        free(p);
+        return x;
+    }
+}
+void RemoveDuplicate(struct Node *p){
+    struct Node *q=p->next;
+    while (q){
+        if(q->data!=p->data){
+            p=q;
+            q=q->next;
+        } else{
+            p->next=q->next;
+            free(q);
+            q=p->next;
+        }
+    }
+}
+void ReverseLinkedList(struct Node *p){
+    struct Node *q;
+    q=(struct Node *)malloc(sizeof(Node));
+    int i=0,array[100];
+    q=p;
+    while (q){
+       array[i]=q->data;
+       i++;
+       q=q->next;
+    }
+    q=p;
+    i--;
+    while(q){
+        q->data=array[i];
+        q=q->next;
+        i--;
+    }
+
+}
+
 int main() {
-    int list[]={1,3,4,19,50,81};
+    int list[]={1,3,5,6,7,19};
     struct Node *c;
     createLinkdedlist(list,6);
 
@@ -147,8 +205,18 @@ int main() {
    // insert(first,2,7);
    // printList(first);
    cout<<endl;
-    InsertSortedList(first,5);
+    //InsertSortedList(first,5);
     printList(first);
+    //cout<<endl<<"The value which is deleted "<<Delete(first,3)<<endl;
+    //printList(first);
+
+    RemoveDuplicate(first);
+    cout<<endl;
+    printList(first);
+    cout<<endl;
+    ReverseLinkedList(first);
+    printList(first);
+
 
     return 0;
 }
