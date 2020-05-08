@@ -103,14 +103,80 @@ void bfsTraverse(struct Node *p){
     }
 
 }
+int  height(struct Node *p){
+    if(p==NULL)return 0;
+    int x,y=0;
+    struct Node *q=p;
+    while(p!=NULL){
+        x++;
+        p=p->leftChild;
+    }
+    while(q!=NULL){
+        y++;
+        q=q->rightChild;
+    }
+   // cout<<x<<" "<<y<<" ";
+    return x>y?x:y;
+
+}
+struct Node *Inpre(struct Node *p){
+    while (p&&p->rightChild!=NULL){
+        p=p->rightChild;
+    }
+    return p;
+}
+struct Node *Insucc(struct Node *p){
+    while (p&&p->leftChild!=NULL){
+        p=p->leftChild;
+    }
+    return p;
+}
+struct Node * Delete(struct Node *p,int key){
+    struct Node *q;
+
+    if(p==NULL){
+        return NULL;
+    }
+    if(p->rightChild==NULL&&p->leftChild==NULL){
+
+        if(p==root)
+            root=NULL;
+        free(p);
+        return NULL;
+    }
+
+    if(p->data<key){
+        p->rightChild=Delete(p->rightChild,key);
+    }
+    if(p->data>key){
+       p->leftChild= Delete(p->leftChild,key);
+    }
+
+    else{
+        if(height(p->leftChild)>height(p->rightChild)){
+            q=Inpre(p->leftChild);
+            p->data=q->data;
+            p->leftChild=Delete(p->leftChild,q->data);
+        } else{
+            q=Insucc(p->rightChild);
+            p->data=q->data;
+            p->rightChild=Delete(p->rightChild,q->data);
+        }
+
+    }
+
+    return p;
+}
 
 int main(){
     struct Node * temp;
 
     Insert(10);
-    Insert(2);
+
     Insert(5);
     Insert(20);
+
+    Insert(3);
     Insert(1);
 
     Inorder(root);
@@ -132,8 +198,11 @@ int main(){
     cout<<endl<<"Min is : "<<temp->data;
     cout<<endl;
     bfsTraverse(root);
+   // cout<<endl<<" "<<height(root);
+    cout<<endl;
 
-
+    Delete(root,5);
+    bfsTraverse(root);
 
     return 0;
 }
