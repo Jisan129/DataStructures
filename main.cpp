@@ -79,6 +79,31 @@ struct Node *Min(){
     return p;
 }
 
+void bfsTraverse(struct Node *p){
+    if(p==NULL){
+        return;
+    }
+    struct Node *t;
+    queue<Node *> list;
+
+    list.push(p);
+
+    while (!list.empty()){
+        t=list.front();
+        list.pop();
+        cout<<t->data<<" ";
+        if(t->leftChild!=NULL)
+        {
+            list.push(t->leftChild);
+        }
+        if(t->rightChild!=NULL){
+            list.push(t->rightChild);
+        }
+
+    }
+
+}
+
 int main(){
     struct Node * temp;
 
@@ -105,6 +130,8 @@ int main(){
 
     temp=Min();
     cout<<endl<<"Min is : "<<temp->data;
+    cout<<endl;
+    bfsTraverse(root);
 
 
 
