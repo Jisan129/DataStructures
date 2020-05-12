@@ -1,208 +1,53 @@
 #include <bits/stdc++.h>
 using namespace std;
-struct Node {
-    int data;
-    struct Node *leftChild;
-    struct Node *rightChild;
+int vsize=8;
+void MaxHeapify(vector<int>&vector, int n, int i) {
 
-}*root=NULL;
+    int largest=i;
+    int l=2*i+1;
+    int r=2*i+2;
 
-void Insert(int key){
-    struct Node *t=root;
-    struct Node *r=NULL,*p;
-
-    if(root==NULL){
-        p=(struct Node *)malloc(sizeof(struct Node));
-        p->data=key;
-        p->leftChild=p->rightChild=NULL;
-        root=p;
-        return;
+    if(l<n && vector[l]>vector[largest]){
+        largest=l;
     }
 
-    while (t!=NULL){
-        r=t;
-        if(t->data<key){
-            t=t->rightChild;
-        } else{
-            t=t->leftChild;
-        }
-
+    if(r<n && vector[r]>vector[largest]){
+        largest=r;
     }
-    p=(struct Node *)malloc(sizeof(struct Node));
-    p->data=key;
-    p->leftChild=p->rightChild=NULL;
+    if(largest!=i){
+        swap(vector[i],vector[largest]);
 
-    if(key>r->data){
-        r->rightChild=p;
-    } else{
-        r->leftChild=p;
+        MaxHeapify(vector,n,largest);
     }
 
-}
-void Inorder(struct Node *p){
-    if(p==NULL)return;
-    Inorder(p->leftChild);
-    cout<<p->data << " ";
-    Inorder(p->rightChild);
 
-}
-struct Node * search(int key){
-    struct Node *p=root;
-    while (p!=NULL){
-       if (p->data==key){
-            return p;
-        }
-        else if(p->data<key){
-            p=p->rightChild;
-        } else if(p->data>key){
-            p=p->leftChild;
-        }
-    }
-    return NULL;
 
 }
 
-struct Node *Max (){
-    struct Node *p=root;
-    while (p->rightChild!=NULL){
-        p=p->rightChild;
-    }
-    return p;
+void buildMaxHeap(vector<int>&number, int n) {
 
-}
-
-struct Node *Min(){
-    struct Node *p=root;
-    while (p->leftChild!=NULL){
-        p=p->leftChild;
-    }
-    return p;
-}
-
-void bfsTraverse(struct Node *p){
-    if(p==NULL){
-        return;
-    }
-    struct Node *t;
-    queue<Node *> list;
-
-    list.push(p);
-
-    while (!list.empty()){
-        t=list.front();
-        list.pop();
-        cout<<t->data<<" ";
-        if(t->leftChild!=NULL)
-        {
-            list.push(t->leftChild);
-        }
-        if(t->rightChild!=NULL){
-            list.push(t->rightChild);
-        }
-
+    for(int i=n/2;i>=0; i--){
+         MaxHeapify(number,8,i);
     }
 
 }
-int  height(struct Node *p){
-    if(p==NULL)return 0;
-    int x,y=0;
-    struct Node *q=p;
-    while(p!=NULL){
-        x++;
-        p=p->leftChild;
+void printHeap(vector<int>&list,int size){
+    for(int i=0;i<size;i++){
+        cout<<list[i]<<" ";
     }
-    while(q!=NULL){
-        y++;
-        q=q->rightChild;
-    }
-   // cout<<x<<" "<<y<<" ";
-    return x>y?x:y;
-
-}
-struct Node *Inpre(struct Node *p){
-    while (p&&p->rightChild!=NULL){
-        p=p->rightChild;
-    }
-    return p;
-}
-struct Node *Insucc(struct Node *p){
-    while (p&&p->leftChild!=NULL){
-        p=p->leftChild;
-    }
-    return p;
-}
-struct Node * Delete(struct Node *p,int key){
-    struct Node *q;
-
-    if(p==NULL){
-        return NULL;
-    }
-    if(p->rightChild==NULL&&p->leftChild==NULL){
-
-        if(p==root)
-            root=NULL;
-        free(p);
-        return NULL;
-    }
-
-    if(p->data<key){
-        p->rightChild=Delete(p->rightChild,key);
-    }
-    if(p->data>key){
-       p->leftChild= Delete(p->leftChild,key);
-    }
-
-    else{
-        if(height(p->leftChild)>height(p->rightChild)){
-            q=Inpre(p->leftChild);
-            p->data=q->data;
-            p->leftChild=Delete(p->leftChild,q->data);
-        } else{
-            q=Insucc(p->rightChild);
-            p->data=q->data;
-            p->rightChild=Delete(p->rightChild,q->data);
-        }
-
-    }
-
-    return p;
 }
 
 int main(){
-    struct Node * temp;
+    vector<int>number(8);
+    number[0]=1;
+    number[1]=3;
+    number[2]=5;
+    number[3]=4;
+    number[4]=6;
+    number[5]=13;
+    number[6]=10;
+    number[7]=9;
 
-    Insert(10);
-
-    Insert(5);
-    Insert(20);
-
-    Insert(3);
-    Insert(1);
-
-    Inorder(root);
-    cout<<endl;
-
-    temp=search(5);
-    if(temp!=NULL){
-        cout<<"Key found : "<<temp->data;
-    } else{
-        cout<<"No key found";
-    }
-
-    temp=Max();
-    cout<<endl<<"Max is : "<<temp->data;
-
-
-
-    temp=Min();
-    cout<<endl<<"Min is : "<<temp->data;
-    cout<<endl;
-    bfsTraverse(root);
-   // cout<<endl<<" "<<height(root);
-    cout<<endl;
-
-    Delete(root,5);
-    bfsTraverse(root);
-
-    return 0;
+    buildMaxHeap(number,8);
+    printHeap(number,8);
 }
