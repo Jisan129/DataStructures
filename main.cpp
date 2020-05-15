@@ -1,53 +1,58 @@
+//implementing queue
+
 #include <bits/stdc++.h>
 using namespace std;
-int vsize=8;
-void MaxHeapify(vector<int>&vector, int n, int i) {
 
-    int largest=i;
-    int l=2*i+1;
-    int r=2*i+2;
+struct Queue {
+    int size;
+    int front;
+    int rear;
+    int *Q;
+};
 
-    if(l<n && vector[l]>vector[largest]){
-        largest=l;
-    }
-
-    if(r<n && vector[r]>vector[largest]){
-        largest=r;
-    }
-    if(largest!=i){
-        swap(vector[i],vector[largest]);
-
-        MaxHeapify(vector,n,largest);
-    }
-
-
+void Create(struct Queue *q,int size){
+    q->size=size;
+    q->front=q->rear=-1;
+    q->Q=(int *)malloc(q->size*sizeof(int));
 
 }
+void enque(  struct Queue *q,int x){
 
-void buildMaxHeap(vector<int>&number, int n) {
-
-    for(int i=n/2;i>=0; i--){
-         MaxHeapify(number,8,i);
-    }
-
-}
-void printHeap(vector<int>&list,int size){
-    for(int i=0;i<size;i++){
-        cout<<list[i]<<" ";
+    if(q->rear==q->size-1){
+        cout<<"The Queue is Full"<<endl;
+    } else{
+        q->rear++;
+        q->Q[q->rear]=x;
     }
 }
+int Deque(struct Queue *q){
+    int x=-1;
+    if(q->rear==q->front){
+        cout<<"The Queue is empty";
+    } else{
+         q->front++;
+         x=q->Q[q->front];
+    }
+    //cout<<endl;
+    return x;
+}
 
+void printQueue(struct Queue *q){
+    for(int i=q->front+1;i<=q->rear;i++){
+        cout<<q->Q[i]<<" ";
+    }
+    cout<<endl;
+}
 int main(){
-    vector<int>number(8);
-    number[0]=1;
-    number[1]=3;
-    number[2]=5;
-    number[3]=4;
-    number[4]=6;
-    number[5]=13;
-    number[6]=10;
-    number[7]=9;
+    struct Queue q;
+    Create(&q,5);
+    enque(&q,10);
+    enque(&q,20);
+    enque(&q,30);
+    printQueue(&q);
 
-    buildMaxHeap(number,8);
-    printHeap(number,8);
+    cout<<Deque(&q)<<endl;
+
+    printQueue(&q);
+
 }
