@@ -1,62 +1,66 @@
-//implementing Circular queue
+//implementing Stack
 
 #include <bits/stdc++.h>
 using namespace std;
-int size=6;
-
-struct Queue {
+struct Stack {
     int size;
-    int front;
-    int rear;
-    int *Q;
+    int top;
+    int *array;
 };
-
-void Create(struct Queue *q,int x){
-    q->size=size;
-    q->front=q->rear=0;
-    q->Q=(int *)malloc(q->size*sizeof(int));
+void Create(struct Stack *q ){
+     cout<<"Print size:";
+     cin>>q->size;
+     q->top=-1;
+     q->array=(int *)malloc(q->size*sizeof(int ));
+}
+void PushStack(struct Stack *st,int element){
+    if(st->top>=st->size-1){
+        cout<<"Stack is Full"<<endl;
+    } else {
+        st->top++;
+        st->array[st->top] = element;
+    }
 
 }
-void enque( struct Queue *q,int x){
+void PopStack(struct Stack *st){
+    if(st->top==-1){
+        cout<<"No elements to delete";
+        return;
+    }
+    int p=st->array[st->top--];
+    cout<<p<<" is Removed"<<endl;
 
-    if((q->rear+1)%q->size==q->front){
-        cout<<"The Queue is Full"<<endl;
-    } else{
-        q->rear=(q->rear+1)%q->size;
-        q->Q[q->rear]=x;
+}
+void printStack(struct Stack *st){
+    for(int i=st->top;i>=0;i--){
+    cout<<st->array[i]<<" ";}
+}
+void Is_empty(struct Stack *q){
+    if(q->top==-1){
+        cout<<"Stack is Empty";
+    }
+    else{
+        cout<<"this is not empty";
     }
 }
-int Deque(struct Queue *q){
-    int x=-1;
-    if(q->rear==q->front){
-        cout<<"The Queue is empty";
-    } else{
-         q->front=(q->front+1)%q->size;
-         x=q->Q[q->front];
-    }
-    //cout<<endl;
-    return x;
-}
-
-void printQueue(struct Queue *q){
-    for(int i=q->front+1;i!=(q->rear+1)%q->size;i=(i+1)%q->size){
-        cout<<q->Q[i]<<" ";
-    }
-    cout<<endl;
+int peek(struct Stack *st){
+    return st->array[st->top];
 }
 int main(){
-    struct Queue q;
-    Create(&q,5);
-    enque(&q,10);
-    enque(&q,20);
-    enque(&q,30);
-    enque(&q,40);
-    enque(&q,50);
-    enque(&q,100);
-    printQueue(&q);
 
-    cout<<Deque(&q)<<endl;
+    struct Stack q;
+    Create( &q);
+    PushStack(&q,4);
+    PushStack(&q,5);
+    PushStack(&q,6);
+    PushStack(&q,7);
+    PushStack(&q,8);
+    cout<< " The peek is "<<peek(&q);
+    printStack(&q);
+    PopStack(&q);
+    printStack(&q);
 
-    printQueue(&q);
+    cout<< " The peek is "<<peek(&q);
+
 
 }
