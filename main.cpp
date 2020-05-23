@@ -1,66 +1,53 @@
-//implementing Stack
+//implementing Stack using linked list
+//create,push,pop,peak,empty,full,print
 
 #include <bits/stdc++.h>
 using namespace std;
-struct Stack {
-    int size;
-    int top;
-    int *array;
-};
-void Create(struct Stack *q ){
-     cout<<"Print size:";
-     cin>>q->size;
-     q->top=-1;
-     q->array=(int *)malloc(q->size*sizeof(int ));
-}
-void PushStack(struct Stack *st,int element){
-    if(st->top>=st->size-1){
-        cout<<"Stack is Full"<<endl;
-    } else {
-        st->top++;
-        st->array[st->top] = element;
-    }
+struct Node{
+    int data;
+    struct Node *next;
+}*top = NULL;
 
-}
-void PopStack(struct Stack *st){
-    if(st->top==-1){
-        cout<<"No elements to delete";
-        return;
-    }
-    int p=st->array[st->top--];
-    cout<<p<<" is Removed"<<endl;
-
-}
-void printStack(struct Stack *st){
-    for(int i=st->top;i>=0;i--){
-    cout<<st->array[i]<<" ";}
-}
-void Is_empty(struct Stack *q){
-    if(q->top==-1){
+void Push(int element){
+    struct Node *q;
+    q=(struct Node * )malloc(sizeof(struct Node));
+    if(q==NULL){
         cout<<"Stack is Empty";
-    }
-    else{
-        cout<<"this is not empty";
+    } else{
+        //q=(struct Node *)malloc()
+        q->data=element;
+        q->next=top;
+        top=q;
     }
 }
-int peek(struct Stack *st){
-    return st->array[st->top];
+
+int pop(){
+    struct Node *q;
+    q=top;
+    top=top->next;
+    int x=q->data;
+    //q=q->next;
+
+    free(q);
+    return x;
 }
+
+void Display(){
+    struct Node *q;
+    q=(struct Node *)malloc(sizeof(struct Node));
+    q=top;
+    while (q!=NULL){
+        cout<<q->data<<" ";
+        q=q->next;
+    }
+    cout<<endl;
+}
+
 int main(){
-
-    struct Stack q;
-    Create( &q);
-    PushStack(&q,4);
-    PushStack(&q,5);
-    PushStack(&q,6);
-    PushStack(&q,7);
-    PushStack(&q,8);
-    cout<< " The peek is "<<peek(&q);
-    printStack(&q);
-    PopStack(&q);
-    printStack(&q);
-
-    cout<< " The peek is "<<peek(&q);
-
-
+    Push(10);
+    Push(20);
+    Push(30);
+    Display();
+    pop();
+    Display();
 }
