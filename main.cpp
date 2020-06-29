@@ -1,53 +1,63 @@
-//implementing Stack using linked list
-//create,push,pop,peak,empty,full,print
-
 #include <bits/stdc++.h>
+
 using namespace std;
-struct Node{
+struct Node {
     int data;
-    struct Node *next;
-}*top = NULL;
+    struct Node *lchild;
+    struct Node *rchild;
+}
+        *root = NULL;
 
-void Push(int element){
-    struct Node *q;
-    q=(struct Node * )malloc(sizeof(struct Node));
-    if(q==NULL){
-        cout<<"Stack is Empty";
-    } else{
-        //q=(struct Node *)malloc()
-        q->data=element;
-        q->next=top;
-        top=q;
+void CreateTree(int key) {
+    struct Node *p;
+    p = (struct Node *) malloc(sizeof(struct Node));
+    p->data = key;
+    p->rchild = p->lchild = NULL;
+
+    root = p;
+
+}
+
+
+void InsertNode(int element) {
+
+    struct Node *temp, *p = root, *r = NULL;
+    while (p != NULL) {
+        r = p;
+        if (element > p->data)p = p->rchild;
+        else if (element < p->data)p = p->lchild;
     }
+    temp = (struct Node *) malloc(sizeof(struct Node));
+    temp->data = element;
+    temp->lchild = temp->rchild = NULL;
+
+    if(element<r->data)r->lchild=temp;
+    else r->rchild=temp;
 }
 
-int pop(){
-    struct Node *q;
-    q=top;
-    top=top->next;
-    int x=q->data;
-    //q=q->next;
+void InOrder(Node *temp) {
 
-    free(q);
-    return x;
-}
 
-void Display(){
-    struct Node *q;
-    q=(struct Node *)malloc(sizeof(struct Node));
-    q=top;
-    while (q!=NULL){
-        cout<<q->data<<" ";
-        q=q->next;
+    if(temp){
+        InOrder(temp->lchild);
+        cout << temp->data<<" ";
+        InOrder(temp->rchild);
     }
-    cout<<endl;
+
 }
 
-int main(){
-    Push(10);
-    Push(20);
-    Push(30);
-    Display();
-    pop();
-    Display();
+int main() {
+
+    int key;
+
+    CreateTree(1);
+
+    for (int i = 2; i <= 5; i++) {
+        InsertNode(i);
+    }
+
+    InOrder(root);
+
+
+    return 0;
 }
