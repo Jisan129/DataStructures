@@ -1,168 +1,48 @@
 #include <bits/stdc++.h>
 
 
-using namespace std;
-struct Node {
-    int data;
-    struct Node *lchild;
-    struct Node *rchild;
-}
-        *root = NULL;
+//implementing Disjoint set Union
 
-void CreateTree(int key) {
-    struct Node *p;
-    p = (struct Node *) malloc(sizeof(struct Node));
-    p->data = key;
-    p->rchild = p->lchild = NULL;
 
-    root = p;
+int parent[100];
 
+void make_set(int i) {
+    parent[i] = i;
 }
 
-int Height(struct Node *item) {
-    struct Node *temp = NULL;
-    temp = item;
-    int i = 0, j = 0;
-    if (item == NULL) {
-        return -1;
+int find_set(int i) {
+    if (parent[i] == i)return i;
+    else {
+        find_set(parent[i]);
     }
-
-    while (temp) {
-        temp = temp->lchild;
-        i++;
-
-    }
-    temp = item;
-    while (temp) {
-        temp = temp->rchild;
-        j++;
-
-    }
-    return i > j ? i - 1 : j - 1;
 }
 
+void union_sets(int a, int b) {
 
-void InsertNode(int element) {
-
-    struct Node *temp, *p = root, *r = NULL;
-    while (p != NULL) {
-        r = p;
-        if (element > p->data)p = p->rchild;
-        else if (element < p->data)p = p->lchild;
+    int ra=find_set(a);
+    int rb=find_set(b);
+    if(ra!=rb){
+        parent[rb]=ra;
     }
-    temp = (struct Node *) malloc(sizeof(struct Node));
-    temp->data = element;
-    temp->lchild = temp->rchild = NULL;
-
-    if (element < r->data)r->lchild = temp;
-    else r->rchild = temp;
-}
-
-void InOrder(Node *temp) {
-
-
-    if (temp) {
-        InOrder(temp->lchild);
-        cout << temp->data << " ";
-        InOrder(temp->rchild);
-    }
-
-}
-
-
-struct Node *Search(int i) {
-
-    struct Node *temp = root;
-    while (temp) {
-        if (temp->data == i) {
-            cout << endl << i << " has found";
-            return temp;
-        } else if (i > temp->data) {
-            temp = temp->rchild;
-
-        } else {
-            temp = temp->lchild;
-        }
-    }
-    return NULL;
-}
-
-struct Node *InSuccessor(struct Node *element) {
-
-    while (element && element->lchild != NULL) {
-        element = element->rchild;
-    }
-    return element;
-
-
-}
-
-struct Node *InPredecessor(struct Node *p) {
-
-    while (p&&p->rchild!=NULL)p=p->rchild;
-    return p;
-}
-
-struct Node *Delete(struct Node *node, int element) {
-    struct Node *p=node,*q=NULL;
-
-    if(p==NULL) {
-        root=NULL;
-        return NULL;
-    }
-    else if(p->lchild==NULL&&p->rchild==NULL){
-        if(p==root)root=NULL;
-        free(p);
-        return NULL;
-    }
-
-    if(element<p->data){
-        p->lchild=Delete(p->lchild,element);
-    }
-    else if(element>p->data){
-        p->rchild=Delete(p->rchild,element);
-    } else{
-        if(Height(p->lchild)>Height(p->rchild)){
-            q=InPredecessor(p->lchild);
-            p->data=q->data;
-            p->lchild=Delete(p->lchild,q->data);
-        } else{
-            q=InSuccessor(p->rchild);
-            p->data=q->data;
-            p->rchild=Delete(p->rchild,q->data);
-
-        }
-    }
-    return p;
 
 }
 
 int main() {
+    // std::cout << "Hello, World!" << std::endl;
+    make_set(1);
+    make_set(4);
+    make_set(2);
+    make_set(3);
+    union_sets(1,2);
+    union_sets(3,4);
+    union_sets(1,3);
+    make_set(5);
+    make_set(7);
+    make_set(20);
 
-    int key;
+    union_sets(5,20);
 
-    CreateTree(3);
-
-
-    InsertNode(2);
-    InsertNode(4);
-    InsertNode(1);
-    InsertNode(5);
-
-    InOrder(root);
-
-    Search(10);
-    cout << endl;
-
-    cout << Height(root);
-    Delete(root, 2);//some problem while giving element 2
-
-    cout <<endl;
-    InOrder(root);
+    std::cout<<find_set(20);
 
     return 0;
 }
-
-
-
-
