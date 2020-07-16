@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "E:/New folder/Coursera/DataStructures/main.cpp" "E:/New folder/Coursera/DataStructures/cmake-build-debug/CMakeFiles/DataStructures.dir/main.cpp.obj"
+  "D:/C project/Data Structure Git/main.cpp" "D:/C project/Data Structure Git/cmake-build-debug/CMakeFiles/DataStructures.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

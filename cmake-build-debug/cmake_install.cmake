@@ -1,4 +1,4 @@
-# Install script for directory: E:/New folder/Coursera/DataStructures
+# Install script for directory: D:/C project/Data Structure Git
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "E:/New folder/Coursera/DataStructures/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/C project/Data Structure Git/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
