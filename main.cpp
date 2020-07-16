@@ -1,30 +1,28 @@
 #include <iostream>
-using namespace std;
-int power(int x, unsigned int y, int p)
-{
-    int res = 1;	 // Initialize result
-    if(x==0){
-        return 0;
-    }
-    if(y==0){
-        return 1;
-    }
-    if(y%2==0){
-        res=power(x,y/2,p);
-        return (res*res)%p;
-    }
 
-    res=(x%p)*(power(x,y-1,p)%p);
-    return res;
+using namespace std;
+
+int phi(int n) {
+    int result = n;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            while (n % i == 0) {
+                n/=i;
+            }
+            result-=result/i;
+        }
+    }
+    if(n>1){
+        result-=result/n;
+    }
+    return result;
 }
 
 
-
-int main()
-{
-    int x,y,p;
-    cin>>x>>y>>p;
-    cout << "Power is " << power(x, y, p);
+int main() {
+    int test = 24;
+    cin>>test;
+    cout << phi(test);
     return 0;
 }
 
